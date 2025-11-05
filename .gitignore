@@ -1,0 +1,51 @@
+# ======================================
+# macOS SYSTEM FILES
+# ======================================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ======================================
+# JAVA / MAVEN BUILD FILES
+# ======================================
+target/
+*.class
+*.log
+*.jar
+*.war
+*.ear
+hs_err_pid*
+replay_pid*
+
+# ======================================
+# MAVEN / IDE SUPPORT
+# ======================================
+.settings/
+.project
+.classpath
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar  # Keep Maven wrapper if you use it
+dependency-reduced-pom.xml
+
+# ======================================
+# VS CODE
+# ======================================
+.vscode/
+.history/
+*.code-workspace
+
+# ======================================
+# ENVIRONMENT / CONFIG FILES
+# ======================================
+*.env
+.env.local
+*.properties.local
+
+# ======================================
+# KAFKA / LOGS / TEMP FILES
+# ======================================
+logs/
+tmp/
+*.tmp
+*.bak
+*.swp
