@@ -10,7 +10,7 @@
     <artifactId>SeismicDataPipeline</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
+        <dependencies>
         <!-- Kafka client -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
@@ -18,7 +18,7 @@
             <version>4.1.0</version>
         </dependency>
 
-        <!-- JUnit 5 -->
+        <!-- JUnit 5 for testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -26,19 +26,13 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Test Containers + Kafka Module -->
-         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <version>1.19.0</version>
-            <scope>test</scope>
-         </dependency>
-         <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>kafka</artifactId>
-            <version>1.19.0</version>
-            <scope>test</scope>
-         </dependency>
+    <!-- Logging 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+    -->
     </dependencies>
 
     <build>
@@ -49,7 +43,15 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
+            <!-- Configure surefire plugin to run tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+            </plugin>
         </plugins>
+        <!-- Add test directory to build path -->
+        <testSourceDirectory>tests</testSourceDirectory>
     </build>
 
 </project>
