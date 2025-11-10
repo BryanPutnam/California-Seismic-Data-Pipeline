@@ -31,21 +31,44 @@ public class ProducerApp {
         // Need to call USGS API and assign return value to messageValue
 
         try { 
-            // Example message payload
-            String messageValue = "{\"id\": 1, \"magnitude\": 5.4, \"location\": \"San Francisco\", \"depth_km\": 10.2}"; 
+            HttpClient client = HttpClient.newHttpClient(); 
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson"))
+                .build();
 
-            ProducerRecord<String, String> record = new ProducerRecord<String,String>(topic, "quake-1", messageValue); // (topic, key, value)
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String jsonResponse = response.body();
 
-            // Sychronous send (waits for acknowledgement)
+            ProducerRecord<String, String> record = new ProducerRecord<String, String>("earthquake_data", "quake-1", jsonResponse); // (topic, key, value)
+
+            //Sychronous send (waits for acknowledgement)
             RecordMetadata metadata = producer.send(record).get(); 
 
             System.out.printf("Sent record(key=%s value=%s) meta(partition=%d, offset=%d)%n",
                 record.key(), record.value(), metadata.partition(), metadata.offset());
-        } catch(InterruptedException | ExecutionException e) { 
-            e.printStackTrace();
-        } finally { 
-            producer.flush(); 
-            producer.close();
-        }
+            } catch(Exception e) { 
+                e.printStackTrace();
+            } finally { 
+                producer.flush(); 
+                producer.close();
+            }
+
+        // try { 
+        //     // Example message payload
+        //     String messageValue = "{\"id\": 1, \"magnitude\": 5.4, \"location\": \"San Francisco\", \"depth_km\": 10.2}"; 
+
+        //     ProducerRecord<String, String> record = new ProducerRecord<String,String>(topic, "quake-1", messageValue); // (topic, key, value)
+
+        //     // Sychronous send (waits for acknowledgement)
+        //     RecordMetadata metadata = producer.send(record).get(); 
+
+        //     System.out.printf("Sent record(key=%s value=%s) meta(partition=%d, offset=%d)%n",
+        //         record.key(), record.value(), metadata.partition(), metadata.offset());
+        // } catch(InterruptedException | ExecutionException e) { 
+        //     e.printStackTrace();
+        // } finally { 
+        //     producer.flush(); 
+        //     producer.close();
+        // }
     }
 }
