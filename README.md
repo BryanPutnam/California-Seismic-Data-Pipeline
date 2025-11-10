@@ -35,14 +35,14 @@ Coming soon:
 
 ## Project Structure
 ```
-├── docker/               # Docker compose files for Kafka
+├── docker/              # Docker compose files for Kafka
 ├── schemas/             # Avro schemas for earthquake data
 ├── src/
 │   └── main/java/com/sdp/
 │       ├── consumer/    # Kafka consumer implementation
 │       ├── producer/    # Kafka producer implementation
 │       └── utils/       # Utility classes
-└── tests/              # Test files
+└── tests/               # Test files
 ```
 
 ## Development Workflow
@@ -52,6 +52,7 @@ Coming soon:
 
 ## Resources
 - [USGS Earthquake API](https://earthquake.usgs.gov/fdsnws/event/1/)
+- [USGS API Format Summary](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
 - [Apache Kafka Documentation](https://kafka.apache.org/documentation/)
 - [Confluent Kafka Docker Images](https://docs.confluent.io/platform/current/installation/docker/image-reference.html)
 

@@ -8,6 +8,11 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import java.net.URI; 
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 public class ProducerApp { 
 
     public static void main(String[] args) { 
@@ -22,6 +27,8 @@ public class ProducerApp {
         KafkaProducer<String, String> producer = new KafkaProducer<>(props); 
 
         String topic = "earthquake_data"; 
+
+        // Need to call USGS API and assign return value to messageValue
 
         try { 
             // Example message payload
