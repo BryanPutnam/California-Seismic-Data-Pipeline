@@ -39,34 +39,14 @@ Think of Kafka as a **distributed message queue**:
 - Multiple producers can write to the same topic.
 - Multiple consumers can read from the same topic.
 - Data is organized by **partitions** within a topic.
-│  │  │                                              │     │   │
-│  │  │  (NOT persisted unless Docker volume used)  │     │   │
-volumes:
 
-Visualize topics, messages, and consumer groups:
-kafka-ui:
-  ports:
-# Kafka Architecture & SeismicDataPipeline — Index
-
-The previous single-file Kafka architecture doc has been split into focused artifacts to make it easier to read and maintain. Use the files below for specific details.
-
-Artifacts:
-
-- `KAFKA_OVERVIEW.md` — core Kafka concepts and how they map to this project.
-- `DOCKER_COMPOSE_DETAILS.md` — detailed explanation of the `docker/docker-compose.yml` Kafka service and environment variables.
-- `PRODUCER_CONSUMER.md` — how `ProducerApp` and `ConsumerApp` interact with Kafka and suggested refactors/testing strategies.
-- `STORAGE_PERSISTENCE.md` — details on where Kafka stores data in the container and how to persist it with Docker volumes and retention settings.
-- `OPERATIONS.md` — commands, CLI examples, monitoring tips and next steps.
-
-If you prefer a single monolithic document, I can re-create it. Otherwise, navigate to the artifact files above for focused guidance.
-
-Generated: November 11, 2025
+(NOT persisted unless Docker volume used)
 
 ---
 
 ## Diagrams & Visuals
 
-Below are the key diagrams that show how data flows between your producer, the Kafka broker, and the consumer. These are preserved here because they provide a quick visual summary of the runtime behavior.
+Below are the key diagrams that show how data flows between the producer, the Kafka broker, and the consumer. 
 
 ### Producer → Topic → Consumer
 
@@ -115,40 +95,35 @@ Notes about the diagram:
 ┌────────────────────────────────────────────────────────────────┐
 │              Your Local Machine (macOS)                        │
 │                                                                │
-│  ┌────────────────────────────────────────────────────────┐   │
-│  │          Docker Container (Kafka Broker)              │   │
-│  │                                                        │   │
-│  │  ┌──────────────────────────────────────────────┐     │   │
-│  │  │  Kafka Broker (Node ID 1, KRaft Mode)       │     │   │
-│  │  │  listening on :9092 (PLAINTEXT)             │     │   │
-│  │  │            and :9093 (CONTROLLER)           │     │   │
-│  │  │                                              │     │   │
-│  │  │  ┌────────────────────────────────────────┐ │     │   │
-│  │  │  │ Topic: earthquake_data                 │ │     │   │
-│  │  │  │ Partition 0:                           │ │     │   │
-│  │  │  │ [msg@0] [msg@1] [msg@2] ... [msg@N]   │ │     │   │
-│  │  │  │ ↑                                       │ │     │   │
-│  │  │  │ (Appended in order)                    │ │     │   │
-│  │  │  └────────────────────────────────────────┘ │     │   │
-│  │  │                                              │     │   │
-│  │  │  Log files stored in:                        │     │   │
-│  │  │  /tmp/kraft-combined-logs                    │     │   │
-│  │  │  (NOT persisted unless Docker volume used)  │     │   │
-│  │  └──────────────────────────────────────────────┘     │   │
-│  └────────────────────────────────────────────────────────┘   │
+│  ┌────────────────────────────────────────────────────────┐    │
+│  │          Docker Container (Kafka Broker)               │    │
+│  │                                                        │    │
+│  │  ┌──────────────────────────────────────────────┐      │    │
+│  │  │  Kafka Broker (Node ID 1, KRaft Mode)        │      │    │
+│  │  │  listening on :9092 (PLAINTEXT)              │      │    │
+│  │  │            and :9093 (CONTROLLER)            │      │    │
+│  │  │                                              │      │    │
+│  │  │  ┌────────────────────────────────────────┐  │      │    │
+│  │  │  │ Topic: earthquake_data                 │  │      │    │
+│  │  │  │ Partition 0:                           │  │      │    │
+│  │  │  │ [msg@0] [msg@1] [msg@2] ... [msg@N]    │  │      │    │
+│  │  │  │ ↑                                      │  │      │    │
+│  │  │  │ (Appended in order)                    │  │      │    │
+│  │  │  └────────────────────────────────────────┘  │      │    │
+│  │  │                                              │      │    │
+│  │  │  Log files stored in:                        │      │    │
+│  │  │  /tmp/kraft-combined-logs                    │      │    │
+│  │  │  (NOT persisted unless Docker volume used)   │      │    │
+│  │  └──────────────────────────────────────────────┘      │    │
+│  └────────────────────────────────────────────────────────┘    │
 │                ↑                          ↑                    │
 │           ProducerApp                ConsumerApp               │
 │        (Java process)              (Java process)              │
 │        localhost:9092              localhost:9092              │
-│        "Send earthquakes"           "Read earthquakes"         │
+│        "Send earthquakes"          "Read earthquakes"          │
 └────────────────────────────────────────────────────────────────┘
 ```
 
 Relevant information:
 - The container path shown (`/tmp/kraft-combined-logs`) is where messages are written inside the Kafka container. If you want data to survive container removal, mount this path to a Docker volume (see `STORAGE_PERSISTENCE.md`).
 - Ports `9092` (client) and `9093` (controller) are mapped to the host; clients use `localhost:9092` to connect.
-
----
-
-If you'd like, I can further revise these visuals into PNG/SVG images and add them to `/artifacts/` for easier presentation or include them in a README. Where should I save any generated images (if desired)?
-Your `docker-compose.yml` runs a **single-node Kafka cluster in KRaft mode** (Kafka Raft consensus — a newer architecture that replaces ZooKeeper).
