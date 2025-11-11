@@ -6,7 +6,6 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
 import java.net.URI; 
 import java.net.http.HttpClient;
@@ -14,6 +13,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class ProducerApp { 
+
+    // URI for USGS Earthquake Data (All Earthquakes in the Past Hour)
+    static final String USGS_EARTHQUAKE_API_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
 
     public static void main(String[] args) { 
 
@@ -26,14 +28,10 @@ public class ProducerApp {
         // Create Kafka Producer
         KafkaProducer<String, String> producer = new KafkaProducer<>(props); 
 
-        String topic = "earthquake_data"; 
-
-        // Need to call USGS API and assign return value to messageValue
-
         try { 
             HttpClient client = HttpClient.newHttpClient(); 
             HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson"))
+                .uri(URI.create(USGS_EARTHQUAKE_API_URL))
                 .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -51,24 +49,11 @@ public class ProducerApp {
             } finally { 
                 producer.flush(); 
                 producer.close();
-            }
+        }
+    }
 
-        // try { 
-        //     // Example message payload
-        //     String messageValue = "{\"id\": 1, \"magnitude\": 5.4, \"location\": \"San Francisco\", \"depth_km\": 10.2}"; 
-
-        //     ProducerRecord<String, String> record = new ProducerRecord<String,String>(topic, "quake-1", messageValue); // (topic, key, value)
-
-        //     // Sychronous send (waits for acknowledgement)
-        //     RecordMetadata metadata = producer.send(record).get(); 
-
-        //     System.out.printf("Sent record(key=%s value=%s) meta(partition=%d, offset=%d)%n",
-        //         record.key(), record.value(), metadata.partition(), metadata.offset());
-        // } catch(InterruptedException | ExecutionException e) { 
-        //     e.printStackTrace();
-        // } finally { 
-        //     producer.flush(); 
-        //     producer.close();
-        // }
+    // For JUnit Test
+    public static URI getURI() { 
+        return URI.create(USGS_EARTHQUAKE_API_URL);
     }
 }
