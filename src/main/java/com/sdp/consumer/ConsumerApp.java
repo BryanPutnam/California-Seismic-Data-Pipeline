@@ -9,15 +9,17 @@ import java.util.Collections;
 import java.util.Properties; 
 
 public class ConsumerApp { 
+
+    public static final String KAFKA_TOPIC = com.sdp.producer.ProducerApp.KAFKA_TOPIC; 
     
     public static void main(String[] args) { 
         KafkaConsumer<String, String> consumer = createConsumer(); 
-        subscribeToTopic(consumer, com.sdp.producer.ProducerApp.KAFKA_TOPIC);
+        subscribeToTopic(consumer, KAFKA_TOPIC);
         consumerMessages(consumer);
 
     }
 
-    public static Properties getConsumerConfig() { 
+    private static Properties getConsumerConfig() { 
         Properties props = new Properties(); 
         props.put("bootstrap.servers", "localhost:9092"); // kafka broker 
         props.put("group.id", "sdp-consumer");
