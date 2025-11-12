@@ -15,9 +15,9 @@ import java.time.Duration;
 
 public class ProducerApp { 
 
-    static final String USGS_EARTHQUAKE_API_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
-    static final String KAFKA_TOPIC = "earthquake_data"; 
-    static final String TOPIC_KEY = "quake-1"; 
+    public static final String USGS_EARTHQUAKE_API_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
+    public static final String KAFKA_TOPIC = "earthquake_data"; 
+    public static final String TOPIC_KEY = "quake-1"; 
 
     public static void main(String[] args) { 
         KafkaProducer<String, String> producer = new KafkaProducer<>(getProducerConfig()); 
