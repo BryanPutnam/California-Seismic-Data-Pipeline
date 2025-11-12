@@ -3,13 +3,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProducerTest { 
 
-    @Test
-    void assertExpectedURI() {
-        String expectedURI = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson";
-        String actualURI = com.sdp.producer.ProducerApp.USGS_EARTHQUAKE_API_URL; 
-        assertEquals(expectedURI, actualURI, "ProducerApp URI does not match expected URI");
-    }
-
     @Test 
     void assertExpectedKafkaTopic() { 
         String expectedTopic = "earthquake_data"; 

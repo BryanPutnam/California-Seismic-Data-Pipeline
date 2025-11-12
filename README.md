@@ -26,7 +26,8 @@ Coming soon:
 - Docker
 - Podman
 - Maven
-- JUnit (testing)
+- JUnit
+- GeoJSON
 
 ## Prerequisites
 - Java 11 or later
@@ -42,7 +43,7 @@ Coming soon:
 │    ├── java/com/sdp/  
 │    │     ├── consumer/     # Kafka consumer implementation
 │    │     ├── producer/     # Kafka producer implementation
-│    │     ├── client/       # API Clients
+│    │     ├── client/       # API Clients (Utility Classes)
 │    │     └── filter/       # Data Filters
 │    └── resources/          # Resources 
 │        └── geojson/        # State Boundry code

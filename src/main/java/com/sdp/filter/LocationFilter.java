@@ -3,3 +3,7 @@ package com.sdp.filter;
 public class LocationFilter {
     
 }
+
+/*
+ * THIS CLASS SHOULD TAKE IN DATA FROM THE USGS CLIENT, FILTER DATA USING THE STATE BOUNDRY GOEJSON AND RETURN THE FILTERED DATA
+ */
