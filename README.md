@@ -35,14 +35,18 @@ Coming soon:
 
 ## Project Structure
 ```
-├—— artifacts/           # Project artifacts
-├── docker/              # Docker compose files for Kafka
-├── schemas/             # Schemas for earthquake data
-├── src/
-│   └── main/java/com/sdp/
-│       ├── consumer/    # Kafka consumer implementation
-│       ├── producer/    # Kafka producer implementation
-└── tests/               # Test files
+├── artifacts/               # Project artifacts
+├── docker/                  # Docker compose files for Kafka
+├── schemas/                 # Schemas for earthquake data
+├── src/main/
+│    ├── java/com/sdp/  
+│    │     ├── consumer/     # Kafka consumer implementation
+│    │     ├── producer/     # Kafka producer implementation
+│    │     ├── client/       # API Clients
+│    │     └── filter/       # Data Filters
+│    └── resources/          # Resources 
+│        └── geojson/        # State Boundry code
+└── tests/                   # JUnit test files
 ```
 
 ## Development Workflow
