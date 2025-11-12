@@ -1,6 +1,6 @@
 # California Seismic Data Pipeline
 
-A real-time earthquake data processing pipeline that will stream data from the USGS Earthquake API using Apache Kafka.
+A real-time earthquake data processing pipeline streams data from the USGS Earthquake API using Apache Kafka.
 
 ## Project Goals
 - Stream real-time earthquake data from USGS API
@@ -10,12 +10,11 @@ A real-time earthquake data processing pipeline that will stream data from the U
 
 ## Current Status: Work in Progress
 This project is in early development. Currently implemented:
-- Basic Kafka producer/consumer setup
-- Local Docker environment for Kafka
+- USGS API Integration using Apache Kafka
+- Local Docker environment for Apache Kafka
 - Initial test framework with JUnit
 
 Coming soon:
-- USGS API integration
 - Real-time data streaming
 - Enhanced data processing
 - Analytics dashboard
@@ -25,6 +24,7 @@ Coming soon:
 - Java
 - Apache Kafka
 - Docker
+- Podman
 - Maven
 - JUnit (testing)
 
@@ -35,20 +35,20 @@ Coming soon:
 
 ## Project Structure
 ```
+├—— artifacts/           # Project artifacts
 ├── docker/              # Docker compose files for Kafka
-├── schemas/             # Avro schemas for earthquake data
+├── schemas/             # Schemas for earthquake data
 ├── src/
 │   └── main/java/com/sdp/
 │       ├── consumer/    # Kafka consumer implementation
 │       ├── producer/    # Kafka producer implementation
-│       └── utils/       # Utility classes
 └── tests/               # Test files
 ```
 
 ## Development Workflow
-1. Producer polls USGS API for earthquake data (coming soon)
+1. Producer polls USGS API for earthquake data
 2. Data is serialized and published to Kafka topic
-3. Consumer processes messages and prepares for analytics (future)
+3. Consumer processes messages and prepares for analytics
 
 ## Resources
 - [USGS Earthquake API](https://earthquake.usgs.gov/fdsnws/event/1/)
